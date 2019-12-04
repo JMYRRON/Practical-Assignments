@@ -3,7 +3,7 @@ package lesson1;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class Task2 {
+public class Task1_2 {
 
     private static int i;
 
@@ -38,6 +38,6 @@ public class Task2 {
     public static void setI() {
         Scanner scan = new Scanner(System.in);
         int n = scan.nextInt();
-        Task2.i = n;
+        Task1_2.i = n;
     }
 }
