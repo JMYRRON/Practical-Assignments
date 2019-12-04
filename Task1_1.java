@@ -2,7 +2,7 @@ package lesson1;
 
 import java.util.Scanner;
 
-public class Task1 {
+public class Task1_1 {
 
     private static int number;
     private static String number2;
