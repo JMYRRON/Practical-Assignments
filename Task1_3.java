@@ -2,7 +2,7 @@ package lesson1;
 
 import java.util.Scanner;
 
-public class Task3 {
+public class Task1_3 {
 
     private static int levels;
     private static int maxwidth = 2 * levels - 1;
