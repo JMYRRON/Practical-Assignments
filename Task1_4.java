@@ -3,7 +3,7 @@ package lesson1;
 import java.util.Random;
 import java.util.Scanner;
 
-public class Task4 {
+public class Task1_4 {
 
     private static int width;
 
