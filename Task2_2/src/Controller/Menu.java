@@ -79,6 +79,12 @@ public class Menu {
 
     }
 
+    public void printNewBooks(Book[] books) {
+        for (Book book:books) {
+            System.out.println(book);
+        }
+    }
+
     private static void printBooks(Book[] books) {
         for (Book book:books) {
             System.out.println(book);
