@@ -7,27 +7,27 @@ import com.task2_1.view.InputData;
 import java.util.Arrays;
 import java.util.Comparator;
 
-public class ShapeModel {
+public class ShapeModel <T extends Shape> {
 
-    private Shape[] shapes;
+    private T[] shapes;
 
-    public Shape[] getShapes() {
+    public T[] getShapes() {
         return shapes;
     }
 
-    public ShapeModel() {
-        shapes = DataSourceShapes.getArrayShapes(10);
+    public ShapeModel(T[] newshapes) {
+        shapes = newshapes;
     }
 
     public void showShapes() {
-        for (Shape shape:shapes) {
+        for (T shape:shapes) {
             shape.draw();
         }
     }
 
     public double getTotalArea() {
         double area = 0;
-        for (Shape shape: shapes) {
+        for (T shape: shapes) {
             area = shape.calcArea()+area;
         }
 
@@ -75,21 +75,13 @@ public class ShapeModel {
     }
 
 
-    public Shape[] sortShapes(Comparator comparator) {
+    public T[] sortShapes(Comparator comparator) {
 
-        Shape[] sortedShapes = Arrays.copyOf(shapes,shapes.length);
+        T[] sortedShapes = Arrays.copyOf(shapes,shapes.length);
 
         Arrays.sort(sortedShapes,comparator);
 
         return sortedShapes;
-    }
-
-    public void setAreaOrder(){
-        Arrays.sort(shapes,new ShapesAreaComparator());
-    }
-
-    public void setColorOrder(){
-        Arrays.sort(shapes,new ShapesColorComparator());
     }
 
     public String getSorted() {
@@ -98,9 +90,21 @@ public class ShapeModel {
         String criteria = InputData.input().toLowerCase();
         Comparator comparator = null;
         switch (criteria) {
-            case "area": comparator = new ShapesAreaComparator();
+            case "area":
+                comparator = new Comparator<T>() {
+                    @Override
+                    public int compare(T o1, T o2) {
+                        return (int) (o1.calcArea()-o2.calcArea());
+                    }
+                };
                 break;
-            case "color": comparator = new ShapesColorComparator();
+            case "color":
+                comparator = new Comparator<T>() {
+                    @Override
+                    public int compare(T o1, T o2) {
+                        return o1.getColorShape().compareTo(o2.getColorShape());
+                    }
+                };
                 break;
         }
         if (comparator!=null) {
@@ -110,4 +114,6 @@ public class ShapeModel {
         }
         return message;
     }
+
+
 }
