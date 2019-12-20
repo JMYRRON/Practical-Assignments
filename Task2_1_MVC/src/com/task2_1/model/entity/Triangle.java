@@ -10,7 +10,12 @@ public class Triangle extends Shape {
         this.a = a;
         this.b = b;
         this.c = c;
+    }
 
+    public static Triangle parseShape(String data) {
+        String[] tokens = data.split("[;,]");
+        return new Triangle(tokens[1], Double.parseDouble(tokens[2]), Double.parseDouble(tokens[3]),
+                Double.parseDouble(tokens[4]));
     }
 
 
