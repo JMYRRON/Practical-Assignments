@@ -53,18 +53,17 @@ public class ShapesGenerator {
         return i;
     }
 
-    public void validateTriangle(int a, int b, int c) {
+    public boolean validateTriangle(double a, double b, double c) {
         if (a>c && a>b) {
-            if (c+b>a) {validator = true;}
+            if (c+b>a) {return true;}
         }
         else if (b>a && b>c) {
-            if (a+c>b) {validator = true;}
+            if (a+c>b) {return true;}
         }
         else if (c>a && c>b) {
-            if (a+b>c) {validator = true;}
+            if (a+b>c) {return true;}
         }
-        else {
-            validator = false;
-        }
+        return false;
+
     }
 }
