@@ -12,5 +12,4 @@ public class InputData {
         Scanner sc = new Scanner(System.in);
         return sc.nextInt();
     }
-
 }

@@ -1,9 +1,7 @@
 package com.epam.model;
 
-import com.epam.model.entities.EpidemicProblems;
-import com.epam.model.entities.Insurance;
-import com.epam.model.entities.MentalProblems;
-import com.epam.model.entities.PhysicalDamage;
+import com.epam.model.entities.*;
+import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -12,66 +10,78 @@ public class InsuranceModelTest {
 
     InsuranceModel model = new InsuranceModel();
 
+    @Before
+    public void setTestModel() {
+        model.setAgreement(3);
+        model.addInsuranceItem("life","cancer",50,5, Duration.MONTH_1);
+        model.addInsuranceItem("car","DTP",100,6, Duration.MONTHS_6);
+    }
 
     @Test
-    public void getAgreementItems() {
+    public void isCheck() {
+        assertTrue(model.isCheck());
+    }
 
+    @Test
+    public void getAgreement() {
         Insurance[] agreement = new Insurance[]{
-                new EpidemicProblems(3,20,"CVT"),
-                new EpidemicProblems(6,40,"APBN"),
-                new EpidemicProblems(4,25,"FTG"),
-                new MentalProblems(2,20,"Bipolar disorder"),
-                new MentalProblems(2,20,"Schizophrenia"),
-                new PhysicalDamage(5,25,"Hand"),
-                new PhysicalDamage(5,30,"Leg"),
-                new PhysicalDamage(4,45,"Head"),
-                new PhysicalDamage(4,55,"Back"),
-                new PhysicalDamage(3,10,"Finger")
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
+                new CarInsurance(100,6,Duration.MONTHS_6,"DTP"),
+                null
+                //new PropertyInsurance(300,3,Duration.YEAR,"fire")
+        };
+        assertArrayEquals(agreement,model.getAgreement());
+    }
+
+    @Test
+    public void addInsuranceItem() {
+        Insurance[] agreement = new Insurance[]{
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
+                new CarInsurance(100,6,Duration.MONTHS_6,"DTP"),
+                new PropertyInsurance(300,3,Duration.YEAR,"fire")
         };
 
-        assertArrayEquals(agreement, model.getAgreementItems());
+        model.addInsuranceItem("property","fire",300,3,Duration.YEAR);
+
+        assertArrayEquals(agreement,model.getAgreement());
     }
 
     @Test
     public void getTotalPrice() {
-        assertEquals(290,model.getTotalPrice());
-    }
-
-    @Test
-    public void getSorted() {
-        Insurance[] agreement = new Insurance[]{
-                new MentalProblems(2,20,"Bipolar disorder"),
-                new MentalProblems(2,20,"Schizophrenia"),
-                new EpidemicProblems(3,20,"CVT"),
-                new PhysicalDamage(3,10,"Finger"),
-                new EpidemicProblems(4,25,"FTG"),
-                new PhysicalDamage(4,45,"Head"),
-                new PhysicalDamage(4,55,"Back"),
-                new PhysicalDamage(5,25,"Hand"),
-                new PhysicalDamage(5,30,"Leg"),
-                new EpidemicProblems(6,40,"APBN"),
-        };
-        assertArrayEquals(agreement,model.getSorted());
+        assertEquals(150,model.getTotalPrice());
     }
 
     @Test
     public void getItemsByPrice() {
         Insurance[] agreement = new Insurance[]{
-                new EpidemicProblems(3,20,"CVT"),
-                new MentalProblems(2,20,"Bipolar disorder"),
-                new MentalProblems(2,20,"Schizophrenia"),
-                new PhysicalDamage(3,10,"Finger"),
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
         };
-        assertArrayEquals(agreement, model.getItemsByPrice(10,20));
+        assertArrayEquals(agreement,model.getItemsByPrice(40,60));
     }
 
     @Test
     public void getItemsByRisk() {
         Insurance[] agreement = new Insurance[]{
-                new EpidemicProblems(6,40,"APBN"),
-                new PhysicalDamage(5,25,"Hand"),
-                new PhysicalDamage(5,30,"Leg"),
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
         };
-        assertArrayEquals(agreement, model.getItemsByRisk(5,6));
+        assertArrayEquals(agreement,model.getItemsByRisk(4,5));
+    }
+
+    @Test
+    public void getSortedByRisk() {
+        Insurance[] agreement = new Insurance[]{
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
+                new CarInsurance(100,6,Duration.MONTHS_6,"DTP")
+        };
+        assertArrayEquals(agreement, model.getSortedByRisk());
+    }
+
+    @Test
+    public void getSortedByPrice() {
+        Insurance[] agreement = new Insurance[]{
+                new LifeInsurance(50,5,Duration.MONTH_1,"cancer"),
+                new CarInsurance(100,6,Duration.MONTHS_6,"DTP")
+        };
+        assertArrayEquals(agreement, model.getSortedByPrice());
     }
 }
